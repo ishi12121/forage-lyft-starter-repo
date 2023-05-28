@@ -1,4 +1,4 @@
-from engine.base import Engine
+from engine.base import Engine, NegativeMileageException
 
 class CapuletEngine(Engine):
     def __init__(self, last_service_mileage, current_mileage):
@@ -7,4 +7,6 @@ class CapuletEngine(Engine):
     
 
     def needs_service(self):
-        return self.current_mileage >= self.next_service_mileage
+        if self.current_mileage < self.last_service_mileage:
+            raise NegativeMileageException
+        return self.current_mileage >= self.last_service_mileage + 30000
